@@ -14,10 +14,11 @@ public class AudioService {
 
     private static final String AUDIO_DIR = "audio/";
 
-    public String audioConversion(String audioURL) throws IOException, InterruptedException {
+    public String audioConversion(String audioName, String audioURL) throws IOException, InterruptedException {
 
         new File(AUDIO_DIR).mkdirs();
-        String outputFileName = System.currentTimeMillis() + ".mp3";
+
+        String outputFileName = audioName + ".mp3";
         String outputFilePath = AUDIO_DIR + outputFileName;
 
         String pyScript = "src/main/resources/scripts/audio_converter.py";
@@ -43,7 +44,7 @@ public class AudioService {
 
     }
 
-    public ResponseEntity<Resource> streamAudioFile(String fileName ) throws IOException {
+    public ResponseEntity<Resource> streamAudioFile( String fileName ) throws IOException {
 
         File file = new File(AUDIO_DIR + fileName);
 

@@ -20,7 +20,12 @@ public class AudioController {
     @PostMapping("/api/download")
     public ResponseEntity<String> downloadAudio(@RequestBody Map<String, String> request) {
 
+        String audioName = request.get("name");
         String audioURL = request.get("url");
+
+        if (audioName == null || audioName.isBlank()) {
+            return ResponseEntity.badRequest().body("A file name is required!");
+        }
 
         if (audioURL == null || audioURL.isBlank()) {
             return ResponseEntity.badRequest().body("URL is required!");
@@ -28,7 +33,7 @@ public class AudioController {
 
         try {
 
-            String outputFile = audioService.audioConversion(audioURL);
+            String outputFile = audioService.audioConversion(audioName, audioURL);
             return ResponseEntity.ok("api/audio/" + outputFile);
 
         } catch (Exception e) {
