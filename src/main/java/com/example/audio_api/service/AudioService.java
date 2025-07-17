@@ -20,9 +20,9 @@ public class AudioService {
         String outputFileName = System.currentTimeMillis() + ".mp3";
         String outputFilePath = AUDIO_DIR + outputFileName;
 
-        String pyScript = "scripts/audio_converter.py";
+        String pyScript = "src/main/resources/scripts/audio_converter.py";
 
-        ProcessBuilder pb = new ProcessBuilder("python3", pyScript, audioURL, outputFilePath);
+        ProcessBuilder pb = new ProcessBuilder("py", pyScript, audioURL, outputFilePath);
         pb.redirectErrorStream(true);
         Process process = pb.start();
 
@@ -54,10 +54,10 @@ public class AudioService {
         InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename\"" + fileName + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
                 .contentType(MediaType.parseMediaType("audio/mpeg"))
                 .contentLength(file.length())
-                .body(resource);
+                .body((Resource) resource);
 
     }
 
